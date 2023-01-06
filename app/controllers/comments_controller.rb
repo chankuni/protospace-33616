@@ -5,7 +5,9 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to "/prototypes/#{@comment.prototype.id}" # 今回の実装には関係ありませんが、このようにPrefixでパスを指定することが望ましいです。
     else
-      render "/prototypes/#{@comment.prototype.id}"
+      @prototype = Prototype.find(params[:prototype_id])
+      @comments = @prototype.comments.includes(:user)
+      render "/prototypes/show"
     end
   end
 
